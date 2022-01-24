@@ -4,7 +4,7 @@ import Sty from './StyBtn';
 
 
 
-function Button({ title, onClick, type, disabled, className }) {
+function Button({ title, onClick, type, disabled, className, radius, color, height }) {
 
   return (
     <Sty
@@ -12,6 +12,9 @@ function Button({ title, onClick, type, disabled, className }) {
         disabled={disabled ? disabled : false } 
         type={type ? type : 'button'}
         className={className}
+        radius={radius}
+        height={height}
+        color={color}
         >
             {title}
     </Sty>

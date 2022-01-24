@@ -25,19 +25,25 @@ function SignUp() {
     setFormData({ ...formData, [name]: value });
   }
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(formData);
+  }
+
   console.log(formData);
 
   const { firstName, lastName, email, password, phone, address } = formData;
+
   return <Container>
       <div className="container__img">
         <img src={img} alt="left description"/>
       </div>
-      <form className="form">
+      <form onSubmit={submitHandler} className="form">
         <h1 className="form__title">
           Sign Up
         </h1>
         <p className="form__subtitle">
-          Already have an account? <Link to="/login">Sign In</Link> 
+          Already have an account? <Link to="/sign-in">Sign In</Link> 
         </p>
         <div className="form__group">
           <Input name="firstName" label="First Name" type="text" value={firstName} placeholder="First Name" onChange={inputHandler} />
