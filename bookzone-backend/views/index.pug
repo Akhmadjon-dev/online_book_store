@@ -1,0 +1,25 @@
+html 
+  head 
+    title=title
+    link(rel="stylesheet", href="style.css")
+  body 
+    h1=signUp 
+    form(class="create__book" action="api/books" method="POST")
+      p
+        label(for="title")="title" 
+        br
+        input(type="text" name="title")
+      p 
+        label(for="author")="author" 
+        br
+        input(type="text" name="author")
+      p
+        label(for="pages")="pages" 
+        br
+        input(type="number" name="pages" required)
+      p
+        label(for="category")="category" 
+        br
+        input(type="text" name="category" required)
+      p 
+        button(type="submit")="Submit" 

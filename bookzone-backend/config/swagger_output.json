@@ -1,0 +1,2226 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Food API",
+    "description": "Simple POS sytem API",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": "Copy and paste token from data using \"Berear token\" using /auth/sign-up or /auth/login\""
+    }
+  },
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/api/sign-up": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Login params",
+            "required": true,
+            "type": "obj",
+            "schema": {
+              "$ref": "#/definitions/SIGN_UP"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/AUTH_RESPONSE"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Something went wrong or Error object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Email or password is wrong"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Login params",
+            "required": true,
+            "type": "obj",
+            "schema": {
+              "$ref": "#/definitions/LOG_IN"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/AUTH_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Password or Email is wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Email or password is wrong"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "description": "Only Admin can update a user or User can update his account",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/USER_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Response body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Only Admin can update a user or User can update his account",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Update user",
+            "required": true,
+            "type": "obj",
+            "schema": {
+              "$ref": "#/definitions/USER"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/USER_RESPONSE"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Response body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "description": "Only User can remove his account",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/USER_RESPONSE"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Response body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "err.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/users/shelf": {
+      "post": {
+        "tags": [
+          "Shelf"
+        ],
+        "description": "Only Admin can add a book to own shelf",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Add book to user shelf",
+            "required": true,
+            "type": "obj",
+            "schema": {
+              "$ref": "#/definitions/SHELF"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/SHELF_RESPONSE"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Password or Email is wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "Shelf"
+        ],
+        "description": "Only Admin can get books in own shelf",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/SHELF_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Password or Email is wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/users/files": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/api/users/shelf/{id}": {
+      "delete": {
+        "tags": [
+          "Shelf"
+        ],
+        "description": "Only Admin can remove a book from own shelf",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/SHELF_RESPONSE"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Password or Email is wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/authors/": {
+      "get": {
+        "tags": [
+          "Author"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "payload": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/AUTHOR"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Author"
+        ],
+        "description": "Registerd users can proced this action",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Create author body",
+            "required": true,
+            "type": "obj",
+            "schema": {
+              "$ref": "#/definitions/AUTHOR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "payload": {
+                  "$ref": "#/definitions/AUTHOR"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Password or Email is wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/authors/{id}": {
+      "get": {
+        "tags": [
+          "Author"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "payload": {
+                  "$ref": "#/definitions/AUTHOR"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Password or Email is wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Password or Email is wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Author"
+        ],
+        "description": "Registerd users can proced this action",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Create author body",
+            "required": true,
+            "type": "obj",
+            "schema": {
+              "$ref": "#/definitions/AUTHOR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/AUTHOR"
+            }
+          },
+          "400": {
+            "description": "Password or Email is wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Author"
+        ],
+        "description": "Registerd users can proced this action",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "payload": {
+                  "$ref": "#/definitions/AUTHOR"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Response body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": ""
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/books/my-books": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "Get your own created book",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/BOOK_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Someting went wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Someting went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/books/": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "Fetch all books",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/BOOK_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Someting went wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Someting went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "create your own book",
+            "required": true,
+            "type": "obj",
+            "schema": {
+              "$ref": "#/definitions/BOOK"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/BOOK_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Something went wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong / author id is invalid"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/books/author/{id}": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "payload": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/AUTHOR__BOOKS"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Book errors page",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "error": {
+                  "type": "string",
+                  "example": "title can not be empty"
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Author not found"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/books/search": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "Search book",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/BOOK_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Book errors page",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "error": {
+                  "type": "string",
+                  "example": "title can not be empty"
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/books/{id}": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "fetch book by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/BOOKID_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Someting went wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "book id",
+            "schema": {
+              "$ref": "#/definitions/BOOK"
+            }
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "update your own book",
+            "required": true,
+            "type": "obj",
+            "schema": {
+              "$ref": "#/definitions/BOOK"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/BOOK_RESPONSE"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Something went wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "err.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "book id",
+            "schema": {
+              "$ref": "#/definitions/BOOK"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/BOOK_RESPONSE"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Something went wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/books/comment": {
+      "post": {
+        "tags": [
+          "Book Comments"
+        ],
+        "description": "Registerd users can proced this action",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Post comment",
+            "required": true,
+            "type": "obj",
+            "schema": {
+              "$ref": "#/definitions/COMMENT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/COMMENT_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Something went wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong / author id is invalid"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/api/books/comment/{id}": {
+      "delete": {
+        "tags": [
+          "Book Comments"
+        ],
+        "description": "Registerd users can proced this action",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Response body",
+            "schema": {
+              "$ref": "#/definitions/COMMENT_RESPONSE"
+            }
+          },
+          "400": {
+            "description": "Something went wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong / book id is invalid"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "401": {
+            "description": "Something went wrong",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "msg": {
+                  "type": "string",
+                  "example": "Something went wrong you are not authorization"
+                },
+                "error": {
+                  "type": "string",
+                  "example": "error.message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "LOG_IN": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "admin@mail.ru"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "SIGN_UP": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "admin@mail.ru"
+        },
+        "password": {
+          "type": "string",
+          "example": "43678yrwiuehruweytr8y348"
+        },
+        "firstName": {
+          "type": "string",
+          "example": "Admin"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Admin"
+        },
+        "lang": {
+          "type": "string",
+          "example": "uz"
+        },
+        "image": {
+          "type": "string",
+          "example": ""
+        },
+        "phone": {
+          "type": "string",
+          "example": "+998995558877"
+        },
+        "address": {
+          "type": "string",
+          "example": "HelloCity"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "BOOK": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "The Adventures of Tom Sawyer"
+        },
+        "description": {
+          "type": "string",
+          "example": "The Adventures of Tom Sawyer is an 1876 novel by Mark Twain about a boy growing up along the Mississippi River. It is set in the 1840s in the town of St. Petersburg, "
+        },
+        "author": {
+          "type": "string",
+          "example": "60f0224792ce9f6d804c994f"
+        },
+        "country": {
+          "type": "string",
+          "example": "United States of America"
+        },
+        "files": {
+          "type": "string",
+          "example": "File"
+        },
+        "language": {
+          "type": "string",
+          "example": "English"
+        },
+        "link": {
+          "type": "string",
+          "example": "https://en.wikipedia.org/wiki/The_Adventures_of_Tom_Sawyer"
+        },
+        "pages": {
+          "type": "number",
+          "example": 274
+        },
+        "year": {
+          "type": "number",
+          "example": 1876
+        },
+        "rate": {
+          "type": "number",
+          "example": 4
+        },
+        "price": {
+          "type": "number",
+          "example": 10.92
+        },
+        "category": {
+          "type": "string",
+          "example": "classic | biography | science"
+        },
+        "isPublished": {
+          "type": "boolean",
+          "example": true
+        }
+      },
+      "required": [
+        "title",
+        "author"
+      ]
+    },
+    "BOOKID_RESPONSE": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "book": {
+              "type": "object",
+              "properties": {
+                "description": {
+                  "type": "string",
+                  "example": "The Adventures of Tom Sawyer is an 1876 novel by Mark Twain about a boy growing up along the Mississippi River. It is set in the 1840s in the town of St. Petersburg, which is based on Hannibal, Missouri, where Twain lived as a boy.In the novel, Tom Sawyer has several adventures, often with his friend Huckleberry Finn. Originally a commercial failure, the book ended up being the best selling of any of Twain's works during his lifetime. Though overshadowed by its sequel, Adventures of Huckleberry Finn, the book is considered by many to be a masterpiece of American literature. It was one of the first novels to be written on a typewriter"
+                },
+                "country": {
+                  "type": "string",
+                  "example": "United States of America"
+                },
+                "language": {
+                  "type": "string",
+                  "example": "English"
+                },
+                "link": {
+                  "type": "string",
+                  "example": "https://en.wikipedia.org/wiki/The_Adventures_of_Tom_Sawyer"
+                },
+                "pages": {
+                  "type": "string",
+                  "example": "274"
+                },
+                "year": {
+                  "type": "string",
+                  "example": "1876"
+                },
+                "views": {
+                  "type": "number",
+                  "example": 8
+                },
+                "rate": {
+                  "type": "number",
+                  "example": 4
+                },
+                "price": {
+                  "type": "number",
+                  "example": 10.92
+                },
+                "category": {
+                  "type": "string",
+                  "example": "classic"
+                },
+                "isPublished": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2021-07-16T06:03:41.046Z"
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "60f1213f7160764c30b0badc"
+                },
+                "author": {
+                  "type": "object",
+                  "properties": {
+                    "lastName": {
+                      "type": "string",
+                      "example": "Twain"
+                    },
+                    "date_of_birth": {
+                      "type": "string",
+                      "example": "1835-01-01T00:00:00.000Z"
+                    },
+                    "date_of_death": {
+                      "type": "string",
+                      "example": "1910-01-01T00:00:00.000Z"
+                    },
+                    "_id": {
+                      "type": "string",
+                      "example": "60f0224792ce9f6d804c994f"
+                    },
+                    "firstName": {
+                      "type": "string",
+                      "example": "Mark"
+                    },
+                    "__v": {
+                      "type": "number",
+                      "example": 0
+                    }
+                  }
+                },
+                "title": {
+                  "type": "string",
+                  "example": "Tom Sawyer"
+                },
+                "imageLink": {
+                  "type": "string",
+                  "example": "\\uploads\\qeEWzntk5mJaVHuN4z6hY.jpg"
+                },
+                "pdfLink": {
+                  "type": "string",
+                  "example": "\\uploads\\qeEWzntk5mJaVHuN4z6hY.jpg"
+                },
+                "__v": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            },
+            "comment": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2021-07-19T11:33:05.081Z"
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "60f563ac6d822a2968084124"
+                  },
+                  "text": {
+                    "type": "string",
+                    "example": "Mark twainni kitoblarini sevib o'qiyman"
+                  },
+                  "bookId": {
+                    "type": "string",
+                    "example": "60f1213f7160764c30b0badc"
+                  },
+                  "user": {
+                    "type": "object",
+                    "properties": {
+                      "firstName": {
+                        "type": "string",
+                        "example": "Sanjarbek"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "example": "Abduraimov"
+                      }
+                    }
+                  },
+                  "__v": {
+                    "type": "number",
+                    "example": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "BOOK_RESPONSE": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "example": "The Adventures of Tom Sawyer is an 1876 novel by Mark Twain about a boy growing up along the Mississippi River.It is set in the 1840s in the town of St.Petersburg, which is based on Hannibal, Missouri, where Twain lived as a boy.In the novel, Tom Sawyer has several adventures, often with his friend Huckleberry Finn.Originally a commercial failure, the book ended up being the best selling of any of Twain's works during his lifetime. Though overshadowed by its sequel, Adventures of Huckleberry Finn, the book is considered by many to be a masterpiece of American literature. It was one of the first novels to be written on a typewriter"
+            },
+            "country": {
+              "type": "string",
+              "example": "United States of America"
+            },
+            "language": {
+              "type": "string",
+              "example": "English"
+            },
+            "link": {
+              "type": "string",
+              "example": "https://en.wikipedia.org/wiki/The_Adventures_of_Tom_Sawyer"
+            },
+            "pages": {
+              "type": "number",
+              "example": 274
+            },
+            "year": {
+              "type": "number",
+              "example": 1876
+            },
+            "views": {
+              "type": "number",
+              "example": 0
+            },
+            "rate": {
+              "type": "number",
+              "example": 4
+            },
+            "price": {
+              "type": "number",
+              "example": 10.92
+            },
+            "category": {
+              "type": "string",
+              "example": "classic"
+            },
+            "isPublished": {
+              "type": "boolean",
+              "example": true
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "2021-07-20T12:08:45.465Z"
+            },
+            "_id": {
+              "type": "string",
+              "example": "60f6d4c9834f817ad01c9b14"
+            },
+            "author": {
+              "type": "object",
+              "properties": {
+                "lastName": {
+                  "type": "string",
+                  "example": "Twain"
+                },
+                "date_of_birth": {
+                  "type": "string",
+                  "example": "1835-01-01T00:00:00.000Z"
+                },
+                "date_of_death": {
+                  "type": "string",
+                  "example": "1910-01-01T00:00:00.000Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2021-07-15T11:55:39.590Z"
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "60f0224792ce9f6d804c994f"
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "Mark"
+                },
+                "__v": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            },
+            "title": {
+              "type": "string",
+              "example": "The Adventures of Tom Sawyer"
+            },
+            "imageLink": {
+              "type": "string",
+              "example": "\\uploads\\RBGQ9C3-u26J_E5EtrSXN.jpg"
+            },
+            "pdfLink": {
+              "type": "string",
+              "example": "\\uploads\\RBGQ9C3-u26J_E5EtrSXN.pdf"
+            }
+          }
+        }
+      }
+    },
+    "AUTH_RESPONSE": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGVkYTFkZmNjMDAyZTY2OGM1ZDQ5NjMiLCJpYXQiOjE2MjYxODYyMDcsImV4cCI6MTYyNjIyMjIwN30.whBHL9YH-TYUHwAySlexSxkQKCAKxI6g603qwweZuEQ"
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "admin@mail.ru"
+            },
+            "password": {
+              "type": "string",
+              "example": "43678yrwiuehruweytr8y348"
+            },
+            "firstName": {
+              "type": "string",
+              "example": "Admin"
+            },
+            "lastName": {
+              "type": "string",
+              "example": "Admin"
+            },
+            "lang": {
+              "type": "string",
+              "example": "uz"
+            },
+            "image": {
+              "type": "string",
+              "example": ""
+            },
+            "phone": {
+              "type": "string",
+              "example": "+998995558877"
+            },
+            "address": {
+              "type": "string",
+              "example": "HelloCity"
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2021-07-13T14:23:25.696Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "2021-07-13T14:23:25.696Z"
+            },
+            "_id": {
+              "type": "string",
+              "example": "60eda1dfcc002e668c5d4963"
+            }
+          }
+        },
+        "success": {
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "USER": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "admin@mail.ru"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        },
+        "firstName": {
+          "type": "string",
+          "example": ""
+        },
+        "lastName": {
+          "type": "string",
+          "example": ""
+        },
+        "lang": {
+          "type": "string",
+          "example": ""
+        },
+        "image": {
+          "type": "string",
+          "example": ""
+        },
+        "phone": {
+          "type": "string",
+          "example": ""
+        },
+        "address": {
+          "type": "string",
+          "example": ""
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "USER_RESPONSE": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "firstName": {
+              "type": "string",
+              "example": "Sanjar"
+            },
+            "lastName": {
+              "type": "string",
+              "example": "Abduraimov"
+            },
+            "phone": {
+              "type": "string",
+              "example": "+998990134034"
+            },
+            "shelf": {
+              "type": "array",
+              "example": [
+                "60f1213f7160764c30b0badc"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "lang": {
+              "type": "string",
+              "example": "uz"
+            },
+            "image": {
+              "type": "string",
+              "example": ""
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "2021-07-14T11:14:17.118Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "2021-07-23T07:47:05.982Z"
+            },
+            "isAdmin": {
+              "type": "boolean",
+              "example": false
+            },
+            "_id": {
+              "type": "string",
+              "example": "60eec7f0492070afeccc0c5c"
+            },
+            "email": {
+              "type": "string",
+              "example": "sanjar@gmail.com"
+            },
+            "__v": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        }
+      }
+    },
+    "SHELF": {
+      "type": "object",
+      "properties": {
+        "bookId": {
+          "type": "string",
+          "example": "werfgnsbxjj65wd656"
+        }
+      },
+      "required": [
+        "bookId"
+      ]
+    },
+    "SHELF_RESPONSE": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string",
+              "example": "The Adventures of Tom Sawyer is an 1876 novel by Mark Twain about a boy growing up along the Mississippi River. It is set in the 1840s in the town of St. Petersburg, which is based on Hannibal, Missouri, where Twain lived as a boy.In the novel, Tom Sawyer has several adventures, often with his friend Huckleberry Finn. Originally a commercial failure, the book ended up being the best selling of any of Twain's works during his lifetime. Though overshadowed by its sequel, Adventures of Huckleberry Finn, the book is considered by many to be a masterpiece of American literature. It was one of the first novels to be written on a typewriter"
+            },
+            "country": {
+              "type": "string",
+              "example": "United States of America"
+            },
+            "language": {
+              "type": "string",
+              "example": "English"
+            },
+            "link": {
+              "type": "string",
+              "example": "https://en.wikipedia.org/wiki/The_Adventures_of_Tom_Sawyer"
+            },
+            "pages": {
+              "type": "string",
+              "example": "274"
+            },
+            "year": {
+              "type": "string",
+              "example": "1876"
+            },
+            "views": {
+              "type": "number",
+              "example": 8
+            },
+            "rate": {
+              "type": "number",
+              "example": 4
+            },
+            "price": {
+              "type": "number",
+              "example": 10.92
+            },
+            "category": {
+              "type": "string",
+              "example": "classic"
+            },
+            "isPublished": {
+              "type": "boolean",
+              "example": true
+            },
+            "isFeatured": {
+              "type": "boolean",
+              "example": false
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "2021-07-16T06:03:41.046Z"
+            },
+            "_id": {
+              "type": "string",
+              "example": "60f1213f7160764c30b0badc"
+            },
+            "author": {
+              "type": "object",
+              "properties": {
+                "lastName": {
+                  "type": "string",
+                  "example": "Twain"
+                },
+                "date_of_birth": {
+                  "type": "string",
+                  "example": "1835-01-01T00:00:00.000Z"
+                },
+                "date_of_death": {
+                  "type": "string",
+                  "example": "1910-01-01T00:00:00.000Z"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2021-07-15T11:55:39.590Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2021-07-15T11:55:39.590Z"
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "60f0224792ce9f6d804c994f"
+                },
+                "firstName": {
+                  "type": "string",
+                  "example": "Mark"
+                },
+                "__v": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            },
+            "title": {
+              "type": "string",
+              "example": "Tom Sawyer"
+            },
+            "imageLink": {
+              "type": "string",
+              "example": "\\uploads\\qeEWzntk5mJaVHuN4z6hY.jpg"
+            },
+            "__v": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        }
+      }
+    },
+    "AUTHOR__BOOKS": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "payload": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "example": "The Adventures of Tom Sawyer is an 1876 novel by Mark Twain about a boy growing up along the Mississippi River. It is set in the 1840s in the town of St. Petersburg, which is based on Hannibal, Missouri, where Twain lived as a boy.In the novel, Tom Sawyer has several adventures, often with his friend Huckleberry Finn. Originally a commercial failure, the book ended up being the best selling of any of Twain's works during his lifetime. Though overshadowed by its sequel, Adventures of Huckleberry Finn, the book is considered by many to be a masterpiece of American literature. It was one of the first novels to be written on a typewriter"
+              },
+              "country": {
+                "type": "string",
+                "example": "United States of America"
+              },
+              "language": {
+                "type": "string",
+                "example": "English"
+              },
+              "link": {
+                "type": "string",
+                "example": "https://en.wikipedia.org/wiki/The_Adventures_of_Tom_Sawyer"
+              },
+              "pages": {
+                "type": "string",
+                "example": "274"
+              },
+              "year": {
+                "type": "string",
+                "example": "1876"
+              },
+              "views": {
+                "type": "number",
+                "example": 8
+              },
+              "rate": {
+                "type": "number",
+                "example": 4
+              },
+              "price": {
+                "type": "number",
+                "example": 10.92
+              },
+              "category": {
+                "type": "string",
+                "example": "classic"
+              },
+              "isPublished": {
+                "type": "boolean",
+                "example": true
+              },
+              "isFeatured": {
+                "type": "boolean",
+                "example": false
+              },
+              "updatedAt": {
+                "type": "string",
+                "example": "2021-07-16T06:03:41.046Z"
+              },
+              "_id": {
+                "type": "string",
+                "example": "60f1213f7160764c30b0badc"
+              },
+              "author": {
+                "type": "object",
+                "properties": {
+                  "lastName": {
+                    "type": "string",
+                    "example": "Twain"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "example": "1835-01-01T00:00:00.000Z"
+                  },
+                  "date_of_death": {
+                    "type": "string",
+                    "example": "1910-01-01T00:00:00.000Z"
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "60f0224792ce9f6d804c994f"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "Mark"
+                  },
+                  "__v": {
+                    "type": "number",
+                    "example": 0
+                  }
+                }
+              },
+              "title": {
+                "type": "string",
+                "example": "Tom Sawyer"
+              },
+              "imageLink": {
+                "type": "string",
+                "example": "\\uploads\\qeEWzntk5mJaVHuN4z6hY.jpg"
+              },
+              "user": {
+                "type": "string",
+                "example": "60eec7f0492070afeccc0c5c"
+              },
+              "__v": {
+                "type": "number",
+                "example": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "AUTHOR": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "William"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Shekspare"
+        },
+        "date_of_birth": {
+          "type": "string",
+          "example": "2021-07-13T14:23:25.696Z"
+        },
+        "date_of_death": {
+          "type": "string",
+          "example": "2021-07-13T14:23:25.696Z"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-07-13T14:23:25.696Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2021-07-13T14:23:25.696Z"
+        },
+        "user": {
+          "type": "string",
+          "example": "userId"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName"
+      ]
+    },
+    "PAGINATION": {
+      "type": "object",
+      "properties": {
+        "totalDocs": {
+          "type": "number",
+          "example": 8
+        },
+        "limit": {
+          "type": "number",
+          "example": 10
+        },
+        "totalPages": {
+          "type": "number",
+          "example": 1
+        },
+        "page": {
+          "type": "number",
+          "example": 1
+        },
+        "pagingCounter": {
+          "type": "number",
+          "example": 1
+        },
+        "hasPrevPage": {
+          "type": "boolean",
+          "example": false
+        },
+        "hasNextPage": {
+          "type": "boolean",
+          "example": false
+        },
+        "prevPage": {
+          "type": "number",
+          "example": 1
+        },
+        "nextPage": {
+          "type": "number",
+          "example": 3
+        }
+      }
+    },
+    "COMMENT": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "example": "William Shakespeare kitoblarini sevib o'qiyman"
+        },
+        "bookId": {
+          "type": "string",
+          "example": "s54s8jm659fih9hi56pk"
+        }
+      },
+      "required": [
+        "text",
+        "bookId"
+      ]
+    },
+    "COMMENT_RESPONSE": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "createdAt": {
+              "type": "string",
+              "example": "2021-07-22T09:27:32.826Z"
+            },
+            "_id": {
+              "type": "string",
+              "example": "60f9409d34b2e2e9e4249288"
+            },
+            "text": {
+              "type": "string",
+              "example": "shu saviali drajada yozilgan kitob"
+            },
+            "bookId": {
+              "type": "string",
+              "example": "60f1213f7160764c30b0badc"
+            },
+            "user": {
+              "type": "string",
+              "example": "60eec8f63bb78ca298d2f341"
+            },
+            "__v": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        }
+      }
+    }
+  }
+}
