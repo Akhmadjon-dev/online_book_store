@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.store = void 0;
+exports.default = void 0;
 
 var _toolkit = require("@reduxjs/toolkit");
 
@@ -16,4 +16,5 @@ var store = (0, _toolkit.configureStore)({
     auth: _authSlice.default
   }
 });
-exports.store = store;
+var _default = store;
+exports.default = _default;
