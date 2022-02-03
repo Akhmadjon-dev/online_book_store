@@ -3,7 +3,8 @@ import axios from 'axios';
 import store from '../app/store';
 
 const Client = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: "https://bookzon.herokuapp.com/api",
+    // baseURL: process.env.REACT_APP_API_URL,
     timeout: 10000,
 });
 
@@ -28,3 +29,5 @@ Client.interceptors.response.use(response => response, error => {
     return Promise.reject(error);
 }
 );
+
+export default Client;

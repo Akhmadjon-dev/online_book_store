@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 var _axios = _interopRequireDefault(require("axios"));
 
 var _store = _interopRequireDefault(require("../app/store"));
@@ -7,7 +12,8 @@ var _store = _interopRequireDefault(require("../app/store"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Client = _axios.default.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: "https://bookzon.herokuapp.com/api",
+  // baseURL: process.env.REACT_APP_API_URL,
   timeout: 10000
 });
 
@@ -33,3 +39,5 @@ Client.interceptors.response.use(function (response) {
 
   return Promise.reject(error);
 });
+var _default = Client;
+exports.default = _default;
