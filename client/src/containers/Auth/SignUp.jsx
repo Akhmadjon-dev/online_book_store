@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,  } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Container from './styles/StySignUp';
 import img from '../../assets/imgSignUp.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-
+import { authSignUp } from '../../features/auth/authSlice';
 
 
 
@@ -16,9 +17,12 @@ function SignUp() {
     email: '',
     password: '',
     phone: '',
-    address: '',
+    // address: '',
   });
+  const dispatch = useDispatch();
+  const user = useSelector(state => state);
 
+  console.log(user, 'user');
 
   const inputHandler = (e) => {
     const { name, value } = e.target;
@@ -27,6 +31,7 @@ function SignUp() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(authSignUp(formData));
     console.log(formData);
   }
 
@@ -49,7 +54,7 @@ function SignUp() {
           <Input name="firstName" label="First Name" type="text" value={firstName} placeholder="First Name" onChange={inputHandler} />
           <Input name="lastName" label="Last Name" type="text" value={lastName} placeholder="Last Name" onChange={inputHandler} />
           <Input name="phone" label="Enter phone" type="tel" value={phone} placeholder="Enter phone" onChange={inputHandler} />
-          <Input name="address" label="Enter address" type="text" value={address} placeholder="Enter address" onChange={inputHandler} />
+          {/* <Input name="address" label="Enter address" type="text" value={address} placeholder="Enter address" onChange={inputHandler} /> */}
           <Input name="email" label="Enter email" type="email" value={email} placeholder="Enter email" onChange={inputHandler} />
           <Input name="password" label="Enter password" type="password" value={password} placeholder="Enter password" onChange={inputHandler} />
           <Button title="Next step" type={'submit'} />

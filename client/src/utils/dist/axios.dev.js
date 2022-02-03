@@ -12,7 +12,8 @@ var _store = _interopRequireDefault(require("../app/store"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Client = _axios.default.create({
-  baseURL: "https://bookzon.herokuapp.com/api",
+  baseURL: "http://localhost:8000/api",
+  // baseURL: "https://bookzon.herokuapp.com/api",
   // baseURL: process.env.REACT_APP_API_URL,
   timeout: 10000
 });

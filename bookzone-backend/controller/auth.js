@@ -86,7 +86,7 @@ function validate(formData) {
     firstName: Joi.string().min(3),
     lastName: Joi.string().min(3),
     email: Joi.string().email().required(),
-    password: Joi.string().required().min(6),
+    password: Joi.string().required(),
     phone: Joi.string().regex(/^\+?\d{9,12}$/),
     lang: Joi.string(),
     image: Joi.string(),
