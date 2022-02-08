@@ -25,7 +25,6 @@ const Storage = configureStore({
     serializableCheck: false
   }),
   // devTools: process.env.NODE_ENV !== 'production'
-
 })
 const persistor = persistStore(Storage)
 
